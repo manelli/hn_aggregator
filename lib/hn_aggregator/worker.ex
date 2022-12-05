@@ -3,11 +3,15 @@ defmodule HNAggregator.Worker do
 
   require Logger
 
-  alias HNAggregator.HNClient
-
   # Client
 
-  def start_link(opts = [table: _, delay: _, count: _]) do
+  def start_link(_opts) do
+    opts = [
+      table: HNAggregator.table_name(),
+      delay: HNAggregator.worker_delay(),
+      count: HNAggregator.top_stories_count()
+    ]
+
     GenServer.start_link(__MODULE__, opts, name: __MODULE__)
   end
 
@@ -24,6 +28,7 @@ defmodule HNAggregator.Worker do
   def handle_info({:fetch_top_stories, count, delay}, table) do
     fetch_top_stories(count, delay)
     maybe_cleanup_table(table, count)
+    HNAggregator.refresh_websocket_data()
 
     {:noreply, table}
   end
@@ -43,7 +48,7 @@ defmodule HNAggregator.Worker do
   end
 
   defp fetch_top_stories(count, delay) do
-    HNClient.top_stories(count)
+    HNAggregator.retrieve_top_stories(count)
     Process.send_after(self(), {:fetch_top_stories, count, delay}, delay)
   end
 

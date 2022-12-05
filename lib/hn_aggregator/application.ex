@@ -8,8 +8,9 @@ defmodule HNAggregator.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Starts a worker by calling: HNAggregator.Worker.start_link(arg)
-      # {HNAggregator.Worker, arg}
+      HNAggregator.API.Router.child_spec(),
+      HNAggregator.Worker,
+      Registry.child_spec(name: Registry.HNAggregator, keys: :duplicate)
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
