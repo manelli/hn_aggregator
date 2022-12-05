@@ -23,7 +23,10 @@ defmodule HNAggregator.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:cowboy, "~> 2.9"},
       {:jason, "~> 1.4"},
+      {:plug, "~> 1.14"},
+      {:plug_cowboy, "~> 2.6"},
       {:tesla, "~> 1.4"}
     ]
   end
