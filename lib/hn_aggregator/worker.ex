@@ -1,4 +1,9 @@
 defmodule HNAggregator.Worker do
+  @moduledoc """
+  GenServer process that periodically retrieves the top stories from Hacker News
+  and stores them in an ETS table for later use.
+  """
+
   use GenServer
 
   require Logger

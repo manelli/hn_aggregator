@@ -3,6 +3,7 @@ defmodule HNAggregator.API.WebSocketHandler do
 
   @registry_key :stories
 
+  @spec send(iodata()) :: :ok
   def send(data) do
     Registry.dispatch(Registry.HNAggregator, @registry_key, fn procs ->
       Enum.each(procs, fn {pid, _} ->
