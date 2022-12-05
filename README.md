@@ -54,6 +54,13 @@ data to the table.
 - Type and function specifications: Accomplished
 - Skip Phoenix scaffold: No framework was used. For the API only the following
   libraries were used: cowboy, plug, and plug_cowboy.
-- Release strategy: Accomplished. The project uses `mix release`.
-- Isolation strategy: Accomplished. A Dockerfile was provided
+- Release strategy: The project supports `mix release` for generating release.
+- Isolation strategy: A Dockerfile is included although it does not use `mix
+  release` since there seems to be a problem with the base image missing some
+  dependencies. It uses `mix run --no-halt` to run the application.
 
+In order to run the application with Docker perform the following steps:
+```bash
+docker build -t hn_aggregator .
+docker run -p 4040:4040 hn_aggregator
+```
