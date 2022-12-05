@@ -15,7 +15,7 @@ defmodule HNAggregator do
   def retrieve_top_stories(count), do: HNClient.top_stories(count)
 
   def list_stories do
-    table_name() |> table_to_json()
+    table_name() |> :ets.tab2list()
   end
 
   def find_story(id) do
@@ -28,13 +28,9 @@ defmodule HNAggregator do
   end
 
   def refresh_websocket_data() do
-    list_stories() |> WebSocketHandler.send()
-  end
-
-  defp table_to_json(name) do
-    name
-    |> :ets.tab2list()
+    list_stories()
     |> Enum.into(%{})
     |> Jason.encode_to_iodata!()
+    |> WebSocketHandler.send()
   end
 end
