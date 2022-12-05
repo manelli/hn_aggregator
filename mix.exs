@@ -15,7 +15,8 @@ defmodule HNAggregator.MixProject do
   def application do
     [
       extra_applications: [:logger],
-      mod: {HNAggregator.Application, []}
+      mod: {HNAggregator.Application, []},
+      registered: [HNAggregator.Worker]
     ]
   end
 
